@@ -1,4 +1,4 @@
-from time import sleep
+from modules.gpio import gpio_output
 
 light_gpio_crossing = [
     {
@@ -20,14 +20,8 @@ light_transition_state = {
 }
 
 def reset_all_lights():
+    for crossing in light_gpio_crossing:
+        for light in crossing:
+            gpio_output(crossing[light][0], 0)
+            gpio_output(crossing[light][1], 0)
 
-
-def init_lights():
-
-    # GPIO.setup(SEMAFORO_1_VERDE, GPIO.OUT)
-    # GPIO.output(SEMAFORO_1_VERDE, 0)
-
-    # for verde in SEMAFORO_1_VERDE:
-    #     GPIO.output(verde, 1)
-    #     sleep(1)
-    #     GPIO.output(verde, 0)
