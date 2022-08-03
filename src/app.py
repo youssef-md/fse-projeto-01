@@ -1,3 +1,6 @@
 from modules import lights
+from modules import gpio
 
-lights.init_lights()
+gpio.config_gpio()
+
+# lights.init_lights()
