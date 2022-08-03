@@ -4,36 +4,35 @@ from time import sleep
 light_gpio_crossing = [
     {
         'green': {
-            'main': 2,
+            'main': 20,
             'aux': 1,
         },
         'yellow': {
-            'main': 3,
+            'main': 16,
             'aux': 26,
         },
         'red': {
-            'main': 11,
+            'main': 12,
             'aux': 21,
         },
     },
     {
         'green': {
             'main': 0,
-            'aux': 20,
+            'aux': 2,
         },
         'yellow': {
             'main': 5,
-            'aux': 16,
+            'aux': 3,
         },
         'red': {
             'main': 6,
-            'aux': 12,
+            'aux': 11,
         }
     }
 ]
 
 light_transition_state = {
-    # 'current': 'green', 
     'green': 'yellow',
     'yellow': 'red',
     'red': 'green',
@@ -58,6 +57,14 @@ def init_traffic_control():
             sleep(5)
             gpio_low(crossing[current_state]['main'])
 
-        current_state = light_transition_state['current']
+        current_state = light_transition_state[current_state]
 
             
+def debug_lights():
+    gpio_high(light_gpio_crossing[1]['green']['main'])
+    gpio_high(light_gpio_crossing[1]['yellow']['main'])
+    gpio_high(light_gpio_crossing[1]['red']['main'])
+    sleep(2)
+    gpio_high(light_gpio_crossing[1]['green']['aux'])
+    gpio_high(light_gpio_crossing[1]['yellow']['aux'])
+    gpio_high(light_gpio_crossing[1]['red']['aux'])
