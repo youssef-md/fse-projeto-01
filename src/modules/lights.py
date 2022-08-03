@@ -33,6 +33,7 @@ light_gpio_crossing = [
 ]
 
 light_transition_state = {
+    'current': 'green',
     'green': 'yellow',
     'yellow': 'red',
     'red': 'green',
@@ -50,14 +51,16 @@ def config_light_output():
 
 def init_traffic_control():
     while True:
-        current_state = 'green'
+        current_state = light_transition_state['current']
 
-        for crossing in light_gpio_crossing:
-            gpio_high(crossing[current_state]['main'])
-            sleep(5)
-            gpio_low(crossing[current_state]['main'])
+        
+        gpio_high(light_gpio_crossing[0][current_state]['main'])
+        gpio_high(light_gpio_crossing[1][current_state]['main'])
+        sleep(2)
+        gpio_low(light_gpio_crossing[0][current_state]['main'])
+        gpio_low(light_gpio_crossing[1][current_state]['main'])
 
-        current_state = light_transition_state[current_state]
+        light_transition_state['current'] = light_transition_state[current_state]
 
             
 def debug_lights():
