@@ -1,15 +1,33 @@
-from modules.gpio import gpio_output
+from modules.gpio import gpio_low, gpio_setup_out
 
 light_gpio_crossing = [
     {
-        'green': [1,2],
-        'yellow': [26, 3],
-        'red': [21, 11]
+        'green': {
+            'main': 2,
+            'aux': 1,
+        },
+        'yellow': {
+            'main': 3,
+            'aux': 26,
+        },
+        'red': {
+            'main': 11,
+            'aux': 21,
+        },
     },
     {
-        'green': [20, 0],
-        'yellow': [16, 5],
-        'red': [12, 6]
+        'green': {
+            'main': 0,
+            'aux': 20,
+        },
+        'yellow': {
+            'main': 5,
+            'aux': 16,
+        },
+        'red': {
+            'main': 6,
+            'aux': 12,
+        }
     }
 ]
 
@@ -19,9 +37,14 @@ light_transition_state = {
     'yellow': 'red'
 }
 
-def reset_all_lights():
+def config_lights():
     for crossing in light_gpio_crossing:
         for light in crossing:
-            gpio_output(crossing[light][0], 0)
-            gpio_output(crossing[light][1], 0)
+            main = crossing[light]['main']
+            aux = crossing[light]['aux']
+            gpio_setup_out(main)
+            gpio_setup_out(aux)
+            gpio_low(main)
+            gpio_low(aux)
+
 

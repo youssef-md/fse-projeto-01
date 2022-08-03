@@ -1,5 +1,5 @@
-from modules.lights import reset_all_lights
-from modules import gpio
+from modules.lights import config_lights
+from modules.gpio import config_gpio
 
-gpio.config_gpio()
-reset_all_lights()
+config_gpio()
+config_lights()
