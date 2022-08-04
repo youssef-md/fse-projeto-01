@@ -39,8 +39,8 @@ light_transition_state = {
     'green': 'yellow',
     'yellow': 'red',
     'red': 'green',
-    'main_duration': 5,
-    'aux_duration': 5,
+    'main_duration': 10,
+    'aux_duration': 10,
     'hasPedestrian': False,
 }
 
@@ -66,8 +66,6 @@ def control_street(street):
         if(light_transition_state['hasPedestrian']):
             update_light_transition(5, False)
 
-        print(f'{street} ->', current_state)
-
         gpio_high(light_gpio_crossing[0][current_state][street])
         gpio_high(light_gpio_crossing[1][current_state][street])
 
@@ -84,7 +82,6 @@ def control_street(street):
 
 
 def update_light_transition(duration, hasPedestrian):
-    print(duration, hasPedestrian)
     light_transition_state['main_duration'] = duration
     light_transition_state['aux_duration'] = duration
     light_transition_state['hasPedestrian'] = hasPedestrian
