@@ -1,8 +1,13 @@
-from modules.lights import config_light_output, init_traffic_control, debug_lights
+from modules.lights import init_traffic_control, debug_lights
 from modules.gpio import config_gpio
 
-config_gpio()
-config_light_output()
+def main():
 
-# debug_lights()
-init_traffic_control()
+    config_gpio()
+    init_traffic_control()
+    
+    while True:
+        signal.pause()
+
+if __name__ == "__main__":
+    main()
