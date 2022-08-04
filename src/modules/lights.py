@@ -1,4 +1,4 @@
-from modules.gpio import gpio_low, gpio_high, gpio_toggle, gpio_setup_out
+from modules.gpio import gpio_low, gpio_high, gpio_setup
 from time import sleep
 from threading import Thread
 
@@ -61,8 +61,11 @@ def control_street(street):
     while True:
         street_state = f'{street}_state'
         street_duration = f'{street}_duration'
-
         current_state = light_transition_state[street_state]
+        
+        if(light_transition_state['hasPedestrian']):
+            update_light_transition(5, False)
+
         print(f'{street} ->', current_state)
 
         gpio_high(light_gpio_crossing[0][current_state][street])
@@ -77,6 +80,14 @@ def control_street(street):
         gpio_low(light_gpio_crossing[1][current_state][street])
 
         light_transition_state[street_state] = light_transition_state[current_state]
+       
+
+
+def update_light_transition(duration, hasPedestrian):
+    print(duration, hasPedestrian)
+    light_transition_state['main_duration'] = duration
+    light_transition_state['aux_duration'] = duration
+    light_transition_state['hasPedestrian'] = hasPedestrian
 
 
 def config_light_output():
@@ -84,8 +95,8 @@ def config_light_output():
         for light in crossing:
             main = crossing[light]['main']
             aux = crossing[light]['aux']
-            gpio_setup_out(main)
-            gpio_setup_out(aux)
+            gpio_setup(main, 'output')
+            gpio_setup(aux, 'output')
             gpio_low(main)
             gpio_low(aux)
 

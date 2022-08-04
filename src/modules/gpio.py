@@ -1,11 +1,16 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
+gpio_setup_type = {
+    'input': GPIO.IN,
+    'output': GPIO.OUT
+}
+
 def config_gpio():
     GPIO.setmode(GPIO.BCM)
 
-def gpio_setup_out(port):
-    GPIO.setup(port, GPIO.OUT)
+def gpio_setup(port, type):
+    GPIO.setup(port, gpio_setup_type[type])
 
 def gpio_high(port):
     GPIO.output(port, 1)
@@ -13,7 +18,5 @@ def gpio_high(port):
 def gpio_low(port):
     GPIO.output(port, 0)
 
-def gpio_toggle(port, time):
-    gpio_high(port)
-    sleep(time)
-    gpio_low(port)
+def gpio_set_event(port, callback, bouncetime):
+    GPIO.add_event_detect(port, GPIO.RISING, callback=callback, bouncetime=bouncetime)
